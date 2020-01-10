@@ -753,9 +753,11 @@ int _xbee_frame_load( xbee_dev_t *xbee)
             // ready to load more frames on next pass
             xbee->rx.state = XBEE_RX_STATE_WAITSTART;
 
-				if (_xbee_checksum( xbee->rx.frame_data,
-														xbee->rx.bytes_in_frame + 1, 0xFF))
-				{
+               uint8_t check = _xbee_checksum( xbee->rx.frame_data,
+                                               xbee->rx.bytes_in_frame + 1, 0xFF);
+               if (check)
+               {
+                   configASSERT(1 == 2)
 					// checksum failed, throw out the frame
 					#ifdef XBEE_DEVICE_VERBOSE
 						printf( "%s: checksum failed\n", __FUNCTION__);
